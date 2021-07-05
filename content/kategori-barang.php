@@ -1,7 +1,6 @@
 <?php 
 $success_msg = "";
 $error_msg = "";
-$breadcum = "Manajemen kategori barang";
 
 if(isset($_POST['hapus_kategori'])){
 
