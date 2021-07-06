@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `detail_transaksi` (
-  `no_nota` int(5) NOT NULL,
-  `id_produk` int(5) NOT NULL,
-  `kuantitas` int(5) DEFAULT NULL,
-  `sub_total` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `no_nota` INT(5) NOT NULL,
+  `id_produk` INT(5) NOT NULL,
+  `kuantitas` INT(5) DEFAULT NULL,
+  `sub_total` FLOAT DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -41,9 +41,9 @@ CREATE TABLE `detail_transaksi` (
 --
 
 CREATE TABLE `kategori_produk` (
-  `id_kategori` varchar(255) NOT NULL,
-  `nama_kategori` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_kategori` VARCHAR(255) NOT NULL,
+  `nama_kategori` VARCHAR(20) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `kategori_produk`
@@ -61,14 +61,14 @@ INSERT INTO `kategori_produk` (`id_kategori`, `nama_kategori`) VALUES
 --
 
 CREATE TABLE `pegawai` (
-  `id_pegawai` int(20) NOT NULL,
-  `nama` varchar(50) DEFAULT NULL,
-  `username` varchar(15) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `alamat` varchar(50) DEFAULT NULL,
-  `telp_p` varchar(15) DEFAULT NULL,
-  `id_toko` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_pegawai` INT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nama` VARCHAR(50) DEFAULT NULL,
+  `username` VARCHAR(15) DEFAULT NULL,
+  `password` VARCHAR(255) DEFAULT NULL,
+  `alamat` VARCHAR(50) DEFAULT NULL,
+  `telp_p` VARCHAR(15) DEFAULT NULL,
+  `id_toko` INT(5) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `pegawai`
@@ -84,13 +84,13 @@ INSERT INTO `pegawai` (`id_pegawai`, `nama`, `username`, `password`, `alamat`, `
 --
 
 CREATE TABLE `produk` (
-  `id_produk` int(5) NOT NULL,
-  `nama_produk` varchar(50) DEFAULT NULL,
-  `desc_produk` varchar(100) DEFAULT NULL,
-  `stok` int(5) DEFAULT NULL,
-  `harga` float DEFAULT NULL,
-  `id_kategori` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_produk` INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nama_produk` VARCHAR(50) DEFAULT NULL,
+  `desc_produk` VARCHAR(100) DEFAULT NULL,
+  `stok` INT(5) DEFAULT NULL,
+  `harga` FLOAT DEFAULT NULL,
+  `id_kategori` VARCHAR(255) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -99,12 +99,12 @@ CREATE TABLE `produk` (
 --
 
 CREATE TABLE `toko` (
-  `id_toko` int(5) NOT NULL,
-  `nama_toko` varchar(30) DEFAULT NULL,
-  `alamat_toko` varchar(50) DEFAULT NULL,
-  `telp` varchar(15) DEFAULT NULL,
-  `nama_pemilik` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_toko` INT(5) NOT NULL,
+  `nama_toko` VARCHAR(30) DEFAULT NULL,
+  `alamat_toko` VARCHAR(50) DEFAULT NULL,
+  `telp` VARCHAR(15) DEFAULT NULL,
+  `nama_pemilik` VARCHAR(50) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `toko`
@@ -120,11 +120,11 @@ INSERT INTO `toko` (`id_toko`, `nama_toko`, `alamat_toko`, `telp`, `nama_pemilik
 --
 
 CREATE TABLE `transaksi` (
-  `no_nota` int(5) NOT NULL,
-  `total_harga` float DEFAULT NULL,
-  `tgl_transaksi` date DEFAULT NULL,
-  `id_pegawai` int(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `no_nota` INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `total_harga` FLOAT DEFAULT NULL,
+  `tgl_transaksi` DATE DEFAULT NULL,
+  `id_pegawai` INT(20) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -147,14 +147,12 @@ ALTER TABLE `kategori_produk`
 -- Indeks untuk tabel `pegawai`
 --
 ALTER TABLE `pegawai`
-  ADD PRIMARY KEY (`id_pegawai`),
   ADD KEY `id_toko` (`id_toko`);
 
 --
 -- Indeks untuk tabel `produk`
 --
 ALTER TABLE `produk`
-  ADD PRIMARY KEY (`id_produk`),
   ADD KEY `id_kategori` (`id_kategori`);
 
 --
@@ -167,7 +165,6 @@ ALTER TABLE `toko`
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`no_nota`),
   ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
