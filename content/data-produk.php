@@ -130,7 +130,7 @@ if(isset($_POST['edit_data'])){
 
                     <div class="form-group">
                         <label>Kategori Produk</label>
-                        <select class="form-control" name="id_kategori">
+                        <select class="form-control" name="kategori">
                             <option></option>
                             <option></option>
                         </select>
@@ -143,7 +143,7 @@ if(isset($_POST['edit_data'])){
                     </form>
                     </div>
             </div>
-            <!-- Akhir form barang-->
+            <!-- Akhir form produk-->
                 <!-- Awal tabel produk -->
                 <div class="card mt-3">
                     <div class="card-header bg-dark text-white">
