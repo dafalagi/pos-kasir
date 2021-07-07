@@ -95,100 +95,124 @@ if(isset($_POST['edit_data'])){
 }
 ?>
 <html>
-    <head>
-        <title>DATA PRODUK</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    </head>
+<br>
 
-    <body>
-        <div class="container mt-3">
-        <!-- Awal form barang-->
-            <div class="card mt-3">
-            <div class="card-header bg-primary text-white">
-                Form Data Produk 
-            </div>
-            <div class="card-body">
-                <form method="post" action="">
-                    <div class="form-group">
-                        <label>Nama Produk</label>
-                        <input type="text" name="nama_produk"  class="form-control" size="50" maxlength="50" placeholder="Masukkan Nama Produk" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Deskripsi Produk</label>
-                        <textarea class="form-control" name="desc_produk" class="form-control" placeholder="Masukkan Deskripsi Produk" required></textarea>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Stok</label>
-                        <input type="text" name="stok" class="form-control" size="5" maxlength="5" placeholder="Masukkan Kuantitas Stok Produk" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Harga</label>
-                        <input type="text" name="harga" class="form-control" size="10" maxlength="10" placeholder="Harga Produk" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Kategori Produk</label>
-                        <select class="form-control" name="kategori">
-                            <option></option>
-                            <option></option>
-                        </select>
-                    </div>
-
+<div class="widget-content widget-content-area br-6">    
+    <div>
+      <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal" data-target="#loginModal">
+        Tambah Data Produk
+      </button>
+    </div>
+    <div class="table-responsive mb-4 mt-4">
+    <?php if (!empty($success_msg)) { ?>
+      <div class="alert alert-gradient" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <strong>SUCCESS!</strong> <?php echo $success_msg; ?>. </button>
+      </div> 
+    <?php } ?>
+                        
+    <?php if (!empty($error_msg)) { ?>
+      <div class="alert alert-gradient" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <strong>ERROR!</strong> <?php echo $error_msg; ?>. </button>
+      </div> 
+    <?php } ?>
+        <table id="zero-config" class="table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Deskripsi Produk</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Id Kategori</th>
+                    <th class="no-content"></>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                $query = "SELECT * FROM kategori_produk ORDER BY id_kategori DESC";
+                $dd = $db->prepare($query);
+                $dd->execute();
+                $no = 1;
+                while($row = $dd->fetch(PDO::FETCH_ASSOC)){
+                 $id_kategori = $row['id_kategori'];
+                 $nama_kategori = $row['nama_kategori'];
+            ?>
+                <tr>
+                    <td><?php echo $id_kategori ?></td>
+                    <td><?php echo $nama_kategori ?></td>
+                    <td>
+                    <div class="row">
+                    <button type="button" class="btn btn-dark mb-2 mr-2 rounded-circle" data-toggle="modal" data-target="#edit-kategori-<?php echo $id_kategori; ?>">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 
+                    </button>
                     
-
-                    <button type="submit" class="btn btn-success" name="tambah_data">Simpan Data</button>
-                    <button type="reset" class="btn btn-danger" name="breset">Reset Form</button>
+                    <form method=POST>
+                      <input type="hidden" name="id_kategori" value="<?php echo $id_kategori; ?>"></input>
+                      <button type="submit" name="hapus_data" class="btn btn-dark mb-2 mr-2 rounded-circle" onclick="return confirm('Are you sure you want to do that?');">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle table-cancel"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                      </button>
                     </form>
                     </div>
-            </div>
-            <!-- Akhir form produk-->
-                <!-- Awal tabel produk -->
-                <div class="card mt-3">
-                    <div class="card-header bg-dark text-white">
-                        Tabel Data Produk
+                    </td>
+                </tr>
+                <!--- MODAL EDIT KATEGORI -->                                
+                <div class="modal fade" id="edit-kategori-<?php echo $id_kategori; ?>" tabindex="-1" role="dialog" aria-labelledby="edit-kategori<?php echo $id_kategori; ?>" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header" id="loginModalLabel">
+                            <h4 class="modal-title">Edit Kategori <?php echo $id_kategori; ?></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="mt-0" method="POST">
+                              <div class="form-group">
+                                <input type="hidden" name="id_kategori_lama"value="<?php echo $id_kategori; ?>">
+                                <input type="text" name="id_kategori_baru" class="form-control mb-2" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>">
+                              </div>
+                              <div class="form-group">
+                                <input type="text" name="nama_kategori" class="form-control mb-4" value="<?php echo $nama_kategori; ?>" placeholder="<?php echo $nama_kategori; ?>">
+                              </div>
+                              <div class="form-group text-right">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                <button type="submit" name="edit_data" class="btn btn-success">Kirim</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="card-body">
-                            <div align="right" style="margin-bottom:15px;" >
-                                <form action="" method="POST">
-                                    <input type="submit" value="RESET" name="treset" style="padding:5px;"/>
-                                    <input type="text" name="input_search" class = "mt-1" style="width:300px; padding:5px;" placeholder="cari barang"/>
-                                    <input type="submit" value="CARI" name="tcari" style="padding:5px;"/>
-                                </form>
-                            </div>
-                            <table class="table table-bordered table-striped">
-                            
-                            <tr>
-                                <th>ID BARANG </th>
-                                <th>NAMA BARANG</th>
-                                <th>DESKRIPSI PRODUK</th>
-                                <th>STOK BARANG</th>
-                                <th>HARGA BARANG</th>
-                                <th>KATEGORI</th>
-                                <th>ACTION</th>
-                            </tr>
-                            
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <button type="submit" class="btn btn-warning" name="edit_data">EDIT</button>
-                                    <button type="submit" class="btn btn-danger" name="hapus_data">HAPUS</button>
-                                </td>
-                            </tr>
-                        </table>
-                            
-                    </div>
-                    </div>
-                <!-- Akhir tabel produk -->
-            
-        </div>
-    </body>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--- MODAL TAMBAH KATEGORI -->                                
+<div class="modal fade bd-example-modal-lg" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header" id="loginModalLabel">
+<h4 class="modal-title">Tambah Kategori</h4>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+</div>
+<div class="modal-body">
+<form class="mt-0" method="POST">
+<div class="form-group">
+<input type="text" name="id_kategori" class="form-control mb-2" id="" placeholder="ID Kategori ">
+</div>
+<div class="form-group">
+<input type="text" name="nama_kategori" class="form-control mb-4" id="" placeholder="Nama Kategori">
+</div>
+<div class="form-group text-right">
+<button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+<button type="submit" name="tambah_data" class="btn btn-success">Kirim</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
 </html>
-<?php
-?>
