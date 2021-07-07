@@ -87,9 +87,9 @@ if(isset($_POST['edit_data'])){
     // eksekusi query untuk menyimpan ke database
     $saved = $stmt->execute($params);
     if($saved) {
-      $success_msg = "Data berhasil ditambahkan";
+      $success_msg = "Data berhasil diubah";
     } else {
-      $error_msg = "Data tidak berhasil ditambahkan";
+      $error_msg = "Data tidak berhasil diubah";
     }
 
 }

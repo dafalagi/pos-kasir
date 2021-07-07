@@ -52,29 +52,29 @@ if(isset($_POST['tambah_data'])){
 
 if(isset($_POST['edit_data'])){
 
-  $id_rak_buku_lama = filter_input(INPUT_POST, 'idrakbukulama', FILTER_SANITIZE_STRING);
-  $id_rak_buku_baru = filter_input(INPUT_POST, 'idrakbukubaru', FILTER_SANITIZE_STRING);
-  $jenis_buku_baru = filter_input(INPUT_POST, 'jenisbukubaru', FILTER_SANITIZE_STRING);
+  $id_kategori_baru = filter_input(INPUT_POST, 'id_kategori_baru', FILTER_SANITIZE_STRING);
+  $id_kategori_lama = filter_input(INPUT_POST, 'id_kategori_lama', FILTER_SANITIZE_STRING);
+  $nama_kategori = filter_input(INPUT_POST, 'nama_kategori', FILTER_SANITIZE_STRING);
 
-  $sql = "UPDATE rak_buku
-          SET id_rak_buku = :id_rak_buku_baru, jenis_buku = :jenis_buku_baru
-          WHERE id_rak_buku = :id_rak_buku_lama";
+  $sql = "UPDATE kategori_produk
+          SET id_kategori = :id_kategori_baru, nama_kategori = :nama_kategori
+          WHERE id_kategori = :id_kategori_lama";
 
   $stmt = $db->prepare($sql);
 
   // bind parameter ke query
   $params = array(
-      ":id_rak_buku_baru" => $id_rak_buku_baru,
-      ":jenis_buku_baru" => $jenis_buku_baru,
-      ":id_rak_buku_lama" => $id_rak_buku_lama
+      ":id_kategori_baru" => $id_kategori_baru,
+      ":id_kategori_lama" => $id_kategori_lama,
+      ":nama_kategori" => $nama_kategori
   );
 
   // eksekusi query untuk menyimpan ke database
   $saved = $stmt->execute($params);
   if($saved) {
-    $success_msg = "Data berhasil ditambahkan";
+    $success_msg = "Data berhasil diubah";
   } else {
-    $error_msg = "Data tidak berhasil ditambahkan";
+    $error_msg = "Data tidak berhasil diubah";
   }
 }
 
