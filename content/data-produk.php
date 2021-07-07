@@ -150,7 +150,7 @@ if(isset($_POST['edit_data'])){
                     </button>
                     
                     <form method=POST>
-                      <input type="hidden" name="id_kategori" value="<?php echo $id_kategori; ?>"></input>
+                      <input type="hidden" name="id_produk" value="<?php echo $id_kategori; ?>"></input>
                       <button type="submit" name="hapus_data" class="btn btn-dark mb-2 mr-2 rounded-circle" onclick="return confirm('Are you sure you want to do that?');">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle table-cancel"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                       </button>
@@ -169,16 +169,32 @@ if(isset($_POST['edit_data'])){
                           <div class="modal-body">
                             <form class="mt-0" method="POST">
                               <div class="form-group">
-                                <input type="hidden" name="id_kategori_lama"value="<?php echo $id_kategori; ?>">
-                                <input type="text" name="id_kategori_baru" class="form-control mb-2" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>">
+                                <input type="hidden" name="id_produk_lama"value="<?php echo $id_kategori; ?>">
+                                <input type="text" name="id_produk_baru" class="form-control mb-2" maxlength = "10" size = "10" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
                               </div>
                               <div class="form-group">
-                                <input type="text" name="nama_kategori" class="form-control mb-4" value="<?php echo $nama_kategori; ?>" placeholder="<?php echo $nama_kategori; ?>">
+                                <input type="text" name="nama_produk" class="form-control mb-2" maxlength = "50" size = "50" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
                               </div>
+                              <div class="form-group">
+                                <textarea type="text" name="desc_produk" class="form-control mb-2" maxlength = "100" size = "100" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></textarea>
+                              </div>
+                              <div class="form-group">
+                                <input type="text" name="stok" class="form-control mb-2" maxlength = "5" size = "5" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                              </div>
+                              <div class="form-group">
+                                <input type="text" name="harga" class="form-control mb-2" maxlength = "10" size = "10"  value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                              </div>
+                              <div class="form-group">
+                                  <select class="form-control" name="id_kategori">
+                                      <option>Pilih Kategori Produk</option>
+                                      <option></option>
+                                  </select>
+                              </div>
+
                               <div class="form-group text-right">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                 <button type="submit" name="edit_data" class="btn btn-success">Kirim</button>
-                              </div>
+                              </>
                             </form>
                           </div>
                         </div>
@@ -192,27 +208,42 @@ if(isset($_POST['edit_data'])){
 
 <!--- MODAL TAMBAH KATEGORI -->                                
 <div class="modal fade bd-example-modal-lg" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header" id="loginModalLabel">
-<h4 class="modal-title">Tambah Kategori</h4>
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-</div>
-<div class="modal-body">
-<form class="mt-0" method="POST">
-<div class="form-group">
-<input type="text" name="id_kategori" class="form-control mb-2" id="" placeholder="ID Kategori ">
-</div>
-<div class="form-group">
-<input type="text" name="nama_kategori" class="form-control mb-4" id="" placeholder="Nama Kategori">
-</div>
-<div class="form-group text-right">
-<button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-<button type="submit" name="tambah_data" class="btn btn-success">Kirim</button>
-</div>
-</form>
-</div>
-</div>
-</div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id="loginModalLabel">
+      <h4 class="modal-title">Tambah Produk</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+      <div class="modal-body">
+      <form class="mt-0" method="POST">
+      <div class="form-group">
+      <input type="text" name="id_produk" class="form-control mb-2" maxlength = "10" size = "10" id="" placeholder="ID Produk ">
+      </div>
+      <div class="form-group">
+      <input type="text" name="nama_produk" class="form-control mb-4" maxlength = "50" size = "50" id="" placeholder="Nama Produk">
+      </div>
+      <div class="form-group">
+      <input type="text" name="desc_produk" class="form-control mb-4" maxlength = "100" size = "100"id="" placeholder="Dekripsi Produk">
+      </div>
+      <div class="form-group">
+      <input type="text" name="stok" class="form-control mb-4" maxlength = "5" size = "5" id="" placeholder="Stok Barang">
+      </div>
+      <div class="form-group">
+      <input type="text" name="harga" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Harga Barang">
+      </div>
+      <div class="form-group">
+            <select class="form-control" name="id_kategori">
+            <option>Pilih Kategori Produk</option>
+            <option></option>
+          </select>
+      </div>
+      <div class="form-group text-right">
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+      <button type="submit" name="tambah_data" class="btn btn-success">Kirim</button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
 </div>
 </html>
