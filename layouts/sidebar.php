@@ -39,7 +39,10 @@
                                 <a href="<?php echo $cfg_baseurl?>/index.php?content=data-produk"> Data Produk </a>
                             </li>
                             <li>
-                                <a href="<?php echo $cfg_baseurl?>/index.php?content=data-pengguna"> Data Pengguna </a>
+                                <a href="<?php echo $cfg_baseurl?>/index.php?content=data-pegawai"> Data Pegawai </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $cfg_baseurl?>/index.php?content=data-toko"> Data Toko </a>
                             </li>
                         </ul>
                     </li>
@@ -54,10 +57,10 @@
                         </a>
                         <ul class="collapse submenu list-unstyled" id="app" data-parent="#topAccordion">
                             <li>
-                                <a href="<?php echo $cfg_baseurl?>/index.php?content=kategori-barang"> Transaksi Baru </a>
+                                <a href="<?php echo $cfg_baseurl?>/index.php?content=transaksi-baru"> Transaksi Baru </a>
                             </li>
                             <li>
-                                <a href="<?php echo $cfg_baseurl?>/index.php?content=kategori-barang"> Laporan Transaksi </a>
+                                <a href="<?php echo $cfg_baseurl?>/index.php?content=data-transaksi"> Laporan Transaksi </a>
                             </li>
                         </ul>
                     </li>
