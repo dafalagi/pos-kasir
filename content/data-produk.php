@@ -185,10 +185,7 @@ if(isset($_POST['edit_data'])){
                                 <input type="text" name="harga" class="form-control mb-2" maxlength = "10" size = "10"  value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
                               </div>
                               <div class="form-group">
-                                  <select class="form-control" name="id_kategori">
-                                      <option>Pilih Kategori Produk</option>
-                                      <option></option>
-                                  </select>
+                              <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang">
                               </div>
 
                               <div class="form-group text-right">
@@ -232,10 +229,7 @@ if(isset($_POST['edit_data'])){
       <input type="text" name="harga" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Harga Barang">
       </div>
       <div class="form-group">
-            <select class="form-control" name="id_kategori">
-            <option>Pilih Kategori Produk</option>
-            <option></option>
-          </select>
+      <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang">
       </div>
       <div class="form-group text-right">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
