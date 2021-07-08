@@ -170,22 +170,22 @@ if(isset($_POST['edit_data'])){
                             <form class="mt-0" method="POST">
                               <div class="form-group">
                                 <input type="hidden" name="id_produk_lama"value="<?php echo $id_kategori; ?>">
-                                <input type="text" name="id_produk_baru" class="form-control mb-2" maxlength = "10" size = "10" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                                <input type="text" name="id_produk_baru" class="form-control mb-2" maxlength = "10" size = "10" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></input>
                               </div>
                               <div class="form-group">
-                                <input type="text" name="nama_produk" class="form-control mb-2" maxlength = "50" size = "50" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                                <input type="text" name="nama_produk" class="form-control mb-2" maxlength = "50" size = "50" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></input>
                               </div>
                               <div class="form-group">
                                 <textarea type="text" name="desc_produk" class="form-control mb-2" maxlength = "100" size = "100" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></textarea>
                               </div>
                               <div class="form-group">
-                                <input type="text" name="stok" class="form-control mb-2" maxlength = "5" size = "5" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                                <input type="text" name="stok" class="form-control mb-2" maxlength = "5" size = "5" value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></input>
                               </div>
                               <div class="form-group">
-                                <input type="text" name="harga" class="form-control mb-2" maxlength = "10" size = "10"  value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required>
+                                <input type="text" name="harga" class="form-control mb-2" maxlength = "10" size = "10"  value="<?php echo $id_kategori; ?>" placeholder="<?php echo $id_kategori; ?>" required></input>
                               </div>
                               <div class="form-group">
-                              <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang">
+                              <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang"></input>
                               </div>
 
                               <div class="form-group text-right">
@@ -214,22 +214,22 @@ if(isset($_POST['edit_data'])){
       <div class="modal-body">
       <form class="mt-0" method="POST">
       <div class="form-group">
-      <input type="text" name="id_produk" class="form-control mb-2" maxlength = "10" size = "10" id="" placeholder="ID Produk ">
+      <input type="text" name="id_produk" class="form-control mb-2" maxlength = "10" size = "10" id="" placeholder="ID Produk "></input>
       </div>
       <div class="form-group">
-      <input type="text" name="nama_produk" class="form-control mb-4" maxlength = "50" size = "50" id="" placeholder="Nama Produk">
+      <input type="text" name="nama_produk" class="form-control mb-4" maxlength = "50" size = "50" id="" placeholder="Nama Produk"></input>
       </div>
       <div class="form-group">
-      <input type="text" name="desc_produk" class="form-control mb-4" maxlength = "100" size = "100"id="" placeholder="Dekripsi Produk">
+      <textarea type="text" name="desc_produk" class="form-control mb-4" maxlength = "100" size = "100"id="" placeholder="Dekripsi Produk"></textarea>
       </div>
       <div class="form-group">
-      <input type="text" name="stok" class="form-control mb-4" maxlength = "5" size = "5" id="" placeholder="Stok Barang">
+      <input type="text" name="stok" class="form-control mb-4" maxlength = "5" size = "5" id="" placeholder="Stok Barang"></input>
       </div>
       <div class="form-group">
-      <input type="text" name="harga" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Harga Barang">
+      <input type="text" name="harga" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Harga Barang"></input>
       </div>
       <div class="form-group">
-      <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang">
+      <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang"></input>
       </div>
       <div class="form-group text-right">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
