@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
         if(password_verify($password, $user["password"])){
             // buat Session
             session_start();
-            $_SESSION["user"] = $user;
+            $_SESSION["user"] = $user['username'];
             // login sukses, alihkan ke halaman timeline
             header("Location: index.php");
         } else {
