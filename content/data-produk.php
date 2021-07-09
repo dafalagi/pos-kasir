@@ -184,7 +184,7 @@ if(isset($_POST['edit_data'])){
                                 <input type="text" name="nama_produk" class="form-control mb-2" maxlength = "50" size = "50" value="<?php echo $nama_produk; ?>" placeholder="<?php echo $nama_produk; ?>" required>
                               </div>
                               <div class="form-group">
-                                <textarea type="text" name="desc_produk" class="form-control mb-2" maxlength = "100" size = "100" value="<?php echo $desc_produk; ?>" placeholder="<?php echo $desc_produk; ?>" required></textarea>
+                                <textarea type="text" name="desc_produk" class="form-control mb-2" maxlength = "100" size = "100" placeholder="<?php echo $desc_produk; ?>" required><?php echo $desc_produk; ?></textarea>
                               </div>
                               <div class="form-group">
                                 <input type="text" name="stok" class="form-control mb-2" maxlength = "5" size = "5" value="<?php echo $stok; ?>" placeholder="<?php echo $stok; ?>" required>
@@ -193,7 +193,7 @@ if(isset($_POST['edit_data'])){
                                 <input type="text" name="harga" class="form-control mb-2" maxlength = "10" size = "10"  value="<?php echo $harga; ?>" placeholder="<?php echo $harga; ?>" required>
                               </div>
                               <div class="form-group">
-                              <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang"></input>
+                              <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" value="<?php echo $id_kategori?>" placeholder="<?php echo $id_kategori?>" required>
                               </div>
 
                               <div class="form-group text-right">
@@ -211,7 +211,7 @@ if(isset($_POST['edit_data'])){
     </div>
 </div>
 
-<!--- MODAL TAMBAH KATEGORI -->                                
+<!--- MODAL TAMBAH -->                                
 <div class="modal fade bd-example-modal-lg" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -221,9 +221,6 @@ if(isset($_POST['edit_data'])){
       </div>
       <div class="modal-body">
       <form class="mt-0" method="POST">
-      <div class="form-group">
-      <input type="text" name="id_produk" class="form-control mb-2" maxlength = "10" size = "10" id="" placeholder="ID Produk "></input>
-      </div>
       <div class="form-group">
       <input type="text" name="nama_produk" class="form-control mb-4" maxlength = "50" size = "50" id="" placeholder="Nama Produk"></input>
       </div>
@@ -237,7 +234,18 @@ if(isset($_POST['edit_data'])){
       <input type="text" name="harga" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Harga Barang"></input>
       </div>
       <div class="form-group">
-      <input type="text" name="id_kategori" class="form-control mb-4" maxlength = "4" size = "4" id="" placeholder="ID Kategori Barang"></input>
+      <select name="id_kategori" class="form-control mb-4">
+      <option value="">Pilih Nama Kategori</option>
+      <?php
+        $option = "SELECT * FROM kategori_produk GROUP BY id_kategori";
+        $select = $db->prepare($option);
+        $select->execute();
+        while($data = $select->fetch(PDO::FETCH_ASSOC))
+        {?>
+          <option value="<?php echo $data['id_kategori']?>"><?php echo $data['nama_kategori']?></option>
+        <?php }
+      ?>
+      </select>
       </div>
       <div class="form-group text-right">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>

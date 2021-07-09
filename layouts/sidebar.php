@@ -33,7 +33,7 @@
                         </a>
                         <ul class="collapse submenu list-unstyled" id="app" data-parent="#topAccordion">
                             <li>
-                                <a href="<?php echo $cfg_baseurl?>/index.php?content=kategori-barang"> Kategori Barang </a>
+                                <a href="<?php echo $cfg_baseurl?>/index.php?content=kategori-barang"> Kategori Produk </a>
                             </li>
                             <li>
                                 <a href="<?php echo $cfg_baseurl?>/index.php?content=data-produk"> Data Produk </a>
