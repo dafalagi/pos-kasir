@@ -28,7 +28,38 @@ if(isset($_POST['delete_cart'])){
 
 
 if(isset($_POST['trx_add'])){
-  $id_produk = filter_input(INPUT_POST, 'id_produk', FILTER_SANITIZE_STRING);
+  $total_harga = filter_input(INPUT_POST, 'total_harga', FILTER_SANITIZE_STRING);
+  $uang_bayar = filter_input(INPUT_POST, 'uang_bayar', FILTER_SANITIZE_STRING);
+  $uang_kembali = filter_input(INPUT_POST, 'uang_kembali', FILTER_SANITIZE_STRING);
+  $tgl_transaksi = filter_input(INPUT_POST, 'tgl_transaksi', FILTER_SANITIZE_STRING);
+
+  $sql = "INSERT INTO transaksi (total_harga, uang_bayar, uang_kembali, tgl_transaksi, id_pegawai) 
+          VALUES (:total_harga, :uang_bayar, :uang_kembali, :tgl_transaksi, :id_pegawai)";
+
+  $stmt = $db->prepare($sql);
+
+  $params = array(
+    ":total_harga" => $total_harga,
+    ":uang_bayar" => $uang_bayar,
+    ":uang_kembali" => $uang_kembali,
+    ":tgl_transaksi" => $tgl_transaksi,
+    ":id_pegawai" => $_SESSION["user"]["id_pegawai"]
+  );
+
+  $sql2 = "DELETE FROM cart";
+
+  $stm2 = $db->prepare($sql2);
+
+  $go = $stm2->execute();
+
+  $saved = $stmt->execute($params);
+  
+  if($saved) {
+    $success_msg = "Data berhasil ditambahkan ke transaksi";
+  } else {
+    $error_msg = "Data tidak berhasil ditambahkan";
+  }
+
 }
 
 if(isset($_POST['tambah_cart'])){
@@ -268,12 +299,12 @@ if(isset($_POST['edit_data'])){
                </div>
                <div class="form-group col-md-6">
                    <label>Tanggal Pemesanan</label>
-                   <input type="text" name="uang_kembali"  value="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" placeholder="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" class="form-control" readonly>
+                   <input type="text" name="uang_kembali"  value="<?php echo (new \DateTime())->format('Y-m-d') ?>" placeholder="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" class="form-control" readonly>
                </div>
          </div>
                   
          <div class="text-right">
-           <button class="btn btn-success mb-2">Bayar</button>            
+           <button type="submit" name="trx_add" class="btn btn-success mb-2">Bayar</button>            
          </div>
         </div>   
       </form>    
