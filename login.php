@@ -10,7 +10,7 @@ $error = "";
 if(isset($_POST['login'])){
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-
+    
     $sql = "SELECT * FROM pegawai WHERE username=:username";
     $stmt = $db->prepare($sql);
     
@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
         if(password_verify($password, $user["password"])){
             // buat Session
             session_start();
-            $_SESSION["user"] = $user['username'];
+            $_SESSION["user"] = $user;
             // login sukses, alihkan ke halaman timeline
             header("Location: index.php");
         } else {
