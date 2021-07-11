@@ -46,14 +46,47 @@ if(isset($_POST['trx_add'])){
     ":id_pegawai" => $_SESSION["user"]["id_pegawai"]
   );
 
+  $saved = $stmt->execute($params);
+
+  $sqld = "SELECT * FROM transaksi ORDER BY no_nota DESC LIMIT 1";
+
+  $stmtf = $db->prepare($sqld);
+
+  $sd = $stmtf->execute();
+
+  $trx = $stmtf->fetch(PDO::FETCH_ASSOC);
+
+  $query = "SELECT * FROM cart ORDER BY id_cart DESC";
+  $dd = $db->prepare($query);
+  $dd->execute();
+  $no = 1;
+  while($row = $dd->fetch(PDO::FETCH_ASSOC)){
+   $id_produks = $row['id_produk'];
+   $jumlahs = $row['jumlah'];
+
+   $sql = "INSERT INTO detail_transaksi (no_nota, id_produk, kuantitas) 
+   VALUES (:no_nota, :id_produk, :kuantitas)";
+
+   $stmt2 = $db->prepare($sql);
+     
+   $params = array(
+    ":no_nota" => $trx["no_nota"],
+    ":id_produk" => $id_produks,
+    ":kuantitas" => $jumlahs
+   );
+
+   $stmt2->execute($params);
+
+  }
+
+  
+
   $sql2 = "DELETE FROM cart";
 
   $stm2 = $db->prepare($sql2);
 
   $go = $stm2->execute();
 
-  $saved = $stmt->execute($params);
-  
   if($saved) {
     $success_msg = "Data berhasil ditambahkan ke transaksi";
   } else {
@@ -210,7 +243,7 @@ if(isset($_POST['edit_data'])){
                     <form method=POST>
                       <input type="hidden" name="id_produk" value="<?php echo $id_produk; ?>"></input>
                       <button type="submit" name="tambah_cart" class="btn btn-dark mb-2 mr-2 rounded-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                       </button>
                     </form>
                     </td>
@@ -299,7 +332,7 @@ if(isset($_POST['edit_data'])){
                </div>
                <div class="form-group col-md-6">
                    <label>Tanggal Pemesanan</label>
-                   <input type="text" name="uang_kembali"  value="<?php echo (new \DateTime())->format('Y-m-d') ?>" placeholder="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" class="form-control" readonly>
+                   <input type="text" name="tgl_transaksi"  value="<?php echo (new \DateTime())->format('Y-m-d') ?>" placeholder="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" class="form-control" readonly>
                </div>
          </div>
                   

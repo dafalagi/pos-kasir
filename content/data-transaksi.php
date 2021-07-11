@@ -117,6 +117,8 @@ if(isset($_POST['edit_data'])){
                     <th>Total Harga</th>
                     <th>Uang Bayar</th>
                     <th>Uang Kembali</th>
+                    <th>Tanggal Transaksi</th>
+                    <th class="no-content"></>
                 </tr>
             </thead>
             <tbody>
@@ -130,73 +132,82 @@ if(isset($_POST['edit_data'])){
                  $total_harga = $row['total_harga'];
                  $uang_bayar = $row['uang_bayar'];
                  $uang_kembali = $row['uang_kembali'];
+                 $tgl_transaksi = $row['tgl_transaksi'];
             ?>
                 <tr>
                     <td><?php echo $no_nota ?></td>
                     <td><?php echo $total_harga ?></td>
                     <td><?php echo $uang_bayar ?></td>
                     <td><?php echo $uang_kembali ?></td>
+                    <td><?php echo $tgl_transaksi ?></td>
                     <td>
+                    <button type="button" class="btn btn-dark mb-2 mr-2 rounded-circle" data-toggle="modal" data-target="#view-detail-<?php echo $no_nota; ?>">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 
+                    </button>
+
+                   
+                    
                     </td>
                 </tr>
+                
             <?php } ?>
             </tbody>
         </table>
     </div>
 </div>
-
-<!--- MODAL TAMBAH -->                                
-<div class="modal fade bd-example-modal-lg" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" id="loginModalLabel">
-      <h4 class="modal-title">Tambah Transaksi</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-      </div>
-      <div class="modal-body">
-      <form class="mt-0" method="POST">
-      <div class="form-group">
-      <select name="no_nota" class="form-control mb-4">
-      <option value="">Pilih Nomor Nota</option>
-      <?php
-        $option = "SELECT * FROM transaksi GROUP BY no_nota";
-        $select = $db->prepare($option);
-        $select->execute();
-        while($data = $select->fetch(PDO::FETCH_ASSOC))
-        {?>
-          <option value="<?php echo $data['no_nota']?>"><?php echo $data['no_nota']?></option>
-        <?php }
-      ?>
-      </select>
-      </div>
-      <div class="form-group">
-      <select name="id_produk" class="form-control mb-4">
-      <option value="">Pilih Nama Produk</option>
-      <?php
-        $option = "SELECT * FROM produk GROUP BY id_produk";
-        $select = $db->prepare($option);
-        $select->execute();
-        while($data = $select->fetch(PDO::FETCH_ASSOC))
-        {?>
-          <option value="<?php echo $data['id_produk']?>"><?php echo $data['nama_produk']?></option>
-        <?php }
-      ?>
-      </select>
-      </div>
-      <div class="form-group">
-      <input type="text" name="kuantitas" class="form-control mb-4" maxlength = "10" size = "10"id="" placeholder="Kuantitas">
-      </div>
-      <div class="form-group">
-      <input type="text" name="sub_total" class="form-control mb-4" maxlength = "10" size = "10" id="" placeholder="Sub Total"></input>
-      </div>
-      
-      <div class="form-group text-right">
-      <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-      <button type="submit" name="tambah_data" class="btn btn-success">Kirim</button>
-      </div>
-      </form>
+<?php
+    $query = "SELECT * FROM transaksi";
+    $dd = $db->prepare($query);
+    $dd->execute();
+    $nos = 0;
+    while($row = $dd->fetch(PDO::FETCH_ASSOC)){
+     $no_notas = $row['no_nota'];
+?>                             
+   <div class="modal fade bd-example-modal-lg" id="view-detail-<?php echo $no_notas; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Detail Transaksi</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div class="modal-body">
+            <table class="table" style="width:100%">
+              <thead>
+                  <tr>
+                      <th>NO</th>
+                      <th>ID Produk</th>
+                      <th>Jumlah</th>
+                      <th>Sub Total</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <?php
+                      $query22 = "SELECT a.id_produk, nama_produk, kuantitas, (a.harga*b.kuantitas) AS sub_total
+                                FROM produk a 
+                                INNER JOIN detail_transaksi b 
+                                ON a.id_produk = b.id_produk
+                                WHERE no_nota = ".$no_nota;
+                      $ddd = $db->prepare($query22);
+                      $ddd->execute();
+                      $no = 0;
+                      while($rows = $ddd->fetch(PDO::FETCH_ASSOC)){
+                       $no++;
+                       $nama_produk = $rows['nama_produk'];
+                       $jumlah = $rows['kuantitas'];
+                       $sub_total = $rows['sub_total'];
+                  ?>
+                  <tr>
+                      <td><?php echo $no; ?></td>
+                      <td><?php echo $nama_produk; ?></td>
+                      <td><?php echo $jumlah; ?></td>
+                      <td><?php echo $sub_total; ?></td>
+                  </tr>
+                  <?php } ?>
+              </tbody>
+            </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<?php } ?>
 </html>
