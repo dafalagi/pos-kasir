@@ -56,5 +56,18 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7 
         });
+
+        
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#total_harga, #uang_bayar").keyup(function() {
+                var total_harga  = $("#total_harga").val();
+                var total_bayar = $("#uang_bayar").val();
+
+                var total = parseInt(total_bayar) - parseInt(total_harga);
+                $("#uang_kembali").val(total);
+            });
+        });
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->

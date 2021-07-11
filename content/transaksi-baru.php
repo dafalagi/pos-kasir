@@ -2,18 +2,18 @@
 $success_msg = "";
 $error_msg = "";
 
-if(isset($_POST['hapus_data'])){
+if(isset($_POST['delete_cart'])){
 
-    $no_nota = filter_input(INPUT_POST, 'no_nota', FILTER_SANITIZE_STRING);
+    $id_produk = filter_input(INPUT_POST, 'id_produk', FILTER_SANITIZE_STRING);
 
-    $sql = "DELETE FROM transaksi
-            WHERE no_nota = :no_nota";
+    $sql = "DELETE FROM cart
+            WHERE id_produk = :id_produk";
   
     $stmt = $db->prepare($sql);
-  
+
     // bind parameter ke query
     $params = array(
-        ":no_nota" => $no_nota
+        ":id_produk" => $id_produk
     );
   
     // eksekusi query untuk menyimpan ke database
@@ -24,6 +24,11 @@ if(isset($_POST['hapus_data'])){
       $error_msg = "Data tidak berhasil dihapus";
     }
 
+}
+
+
+if(isset($_POST['trx_add'])){
+  $id_produk = filter_input(INPUT_POST, 'id_produk', FILTER_SANITIZE_STRING);
 }
 
 if(isset($_POST['tambah_cart'])){
@@ -120,6 +125,19 @@ if(isset($_POST['edit_data'])){
 
 <div class="row layout-top-spacing" id="cancel-row">
   
+<?php if (!empty($success_msg)) { ?>
+      <div class="alert alert-gradient" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <strong>SUCCESS!</strong> <?php echo $success_msg; ?>. </button>
+      </div> 
+    <?php } ?>
+                        
+    <?php if (!empty($error_msg)) { ?>
+      <div class="alert alert-gradient" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <strong>ERROR!</strong> <?php echo $error_msg; ?>. </button>
+      </div> 
+    <?php } ?>
   <div class="col-md-12">
   <div class="widget-content widget-content-area br-6">    
     <div class="widget-heading">
@@ -191,7 +209,7 @@ if(isset($_POST['edit_data'])){
             </thead>
             <tbody>
             <?php
-                $query = "SELECT id_cart, nama_produk, jumlah, (a.harga*b.jumlah) AS sub_total
+                $query = "SELECT id_cart, a.id_produk, nama_produk, jumlah, (a.harga*b.jumlah) AS sub_total
                           FROM produk a INNER JOIN cart b 
                           ON a.id_produk = b.id_produk
                           WHERE id_cart = ".$_SESSION["user"]["id_pegawai"]." ORDER BY id_cart DESC";
@@ -200,20 +218,21 @@ if(isset($_POST['edit_data'])){
                 $no = 0;
                 while($row = $dd->fetch(PDO::FETCH_ASSOC)){
                  $no++;
-                 $id_produk = $row['nama_produk'];
+                 $id_produk = $row['id_produk'];
+                 $nama_produk = $row['nama_produk'];
                  $jumlah = $row['jumlah'];
                  $sub_total = $row['sub_total'];
             ?>
                 <tr>
                     <td><?php echo $no ?></td>
-                    <td><?php echo $id_produk ?></td>
+                    <td><?php echo $nama_produk ?></td>
                     <td><?php echo $jumlah ?></td>
                     <td><?php echo $sub_total ?></td>
                     <td>
                     <form method=POST>
                       <input type="hidden" name="id_produk" value="<?php echo $id_produk; ?>"></input>
-                      <button type="submit" name="tambah_cart" class="btn btn-dark mb-2 mr-2 rounded-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                      <button type="submit" name="delete_cart" class="btn btn-dark mb-2 mr-2 rounded-circle" onclick="return confirm('Are you sure you want to do that?');">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                       </button>
                     </form>
                     </td>
@@ -222,34 +241,39 @@ if(isset($_POST['edit_data'])){
             <?php } ?>
         </table>
       </div>
-      
-      <div class="form-row mb-4">
-            <?php 
-              $query = "SELECT SUM((a.harga*b.jumlah)) AS total_harga
-                        FROM produk a INNER JOIN cart b 
-                        ON a.id_produk = b.id_produk
-                        WHERE id_cart = ".$_SESSION["user"]["id_pegawai"];
-              $dd = $db->prepare($query);
-              $dd->execute();
-              $no = 0;
-              $tot = $dd->fetch(PDO::FETCH_ASSOC);
-              $total = $tot['total_harga'];
-            ?>
-            <div class="form-group col-md-6">
-                <label>Total Harga</label>
-                <input type="number" class="form-control" value="<?php echo $total ?>" readonly>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Total Bayar</label>
-                <input type="number" class="form-control" >
-            </div>
-            <div class="form-group col-md-6">
-                <label>Total Kembalian</label>
-                <input type="number" class="form-control" readonly>
-            </div>
-      </div>
-      
-      <div class="text-right">
-                <button class="btn btn-success mb-2">Bayar</button>            
-            </div>
-    </div>       
+      <form method="POST">
+         <div class="form-row mb-4">
+               <?php 
+                 $query = "SELECT SUM((a.harga*b.jumlah)) AS total_harga
+                           FROM produk a INNER JOIN cart b 
+                           ON a.id_produk = b.id_produk
+                           WHERE id_cart = ".$_SESSION["user"]["id_pegawai"];
+                 $dd = $db->prepare($query);
+                 $dd->execute();
+                 $no = 0;
+                 $tot = $dd->fetch(PDO::FETCH_ASSOC);
+                 $total = $tot['total_harga'];
+               ?>
+               <div class="form-group col-md-6">
+                   <label>Total Harga</label>
+                   <input type="number" name="total_harga" id="total_harga" class="form-control" value="<?php echo $total ?>" readonly>
+               </div>
+               <div class="form-group col-md-6">
+                   <label>Total Bayar</label>
+                   <input type="number" name="uang_bayar" id="uang_bayar" class="form-control" >
+               </div>
+               <div class="form-group col-md-6">
+                   <label>Total Kembalian</label>
+                   <input type="text" name="uang_kembali" id="uang_kembali" class="form-control" readonly>
+               </div>
+               <div class="form-group col-md-6">
+                   <label>Tanggal Pemesanan</label>
+                   <input type="text" name="uang_kembali"  value="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" placeholder="<?php echo (new \DateTime())->format('Y-m-d H:i:s') ?>" class="form-control" readonly>
+               </div>
+         </div>
+                  
+         <div class="text-right">
+           <button class="btn btn-success mb-2">Bayar</button>            
+         </div>
+        </div>   
+      </form>    
