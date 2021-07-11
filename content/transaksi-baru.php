@@ -65,7 +65,30 @@ if(isset($_POST['trx_add'])){
    $jumlahs = $row['jumlah'];
 
    $sql = "INSERT INTO detail_transaksi (no_nota, id_produk, kuantitas) 
-   VALUES (:no_nota, :id_produk, :kuantitas)";
+            VALUES (:no_nota, :id_produk, :kuantitas)";
+
+   $sql77 = "SELECT stok 
+   FROM produk 
+   WHERE id_produk=".$id_produks;
+   
+   $stmt25 = $db->prepare($sql77);
+     
+   
+   $stmt25->execute();
+
+   $stokss = $stmt25->fetch(PDO::FETCH_ASSOC);
+  
+   $sql7 = "UPDATE produk 
+   SET stok= :data_stok_baru
+   WHERE id_produk=".$id_produks;
+ 
+   $stmt25 = $db->prepare($sql7);
+     
+   $params = array(
+    ":data_stok_baru" => $stokss["stok"] - $jumlahs,
+   );
+
+   $stmt25->execute($params);
 
    $stmt2 = $db->prepare($sql);
      
@@ -76,6 +99,8 @@ if(isset($_POST['trx_add'])){
    );
 
    $stmt2->execute($params);
+
+   
 
   }
 
